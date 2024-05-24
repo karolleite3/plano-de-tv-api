@@ -1,5 +1,7 @@
 package com.karol.estudo.planodetvapi.controller;
 
+import com.karol.estudo.planodetvapi.dto.PacoteDeTVDTO;
+import com.karol.estudo.planodetvapi.mapper.PacoteDeTVMapper;
 import com.karol.estudo.planodetvapi.model.PacoteTV;
 import com.karol.estudo.planodetvapi.service.PacoteTVService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +16,22 @@ public class PacoteTVController {
     @Autowired
     private PacoteTVService pacoteTVService;
 
+    @Autowired
+    private PacoteDeTVMapper mapper;
+
     @GetMapping
-    public List<PacoteTV> getAllPacotes() {
-        return pacoteTVService.getAllPacotes();
+    public List<PacoteDeTVDTO> getAllPacotes() {
+        return this.mapper.toListDTO(pacoteTVService.getAllPacotes());
     }
 
     @GetMapping("/{id}")
-    public PacoteTV getPacoteById(@PathVariable Long id) {
-        return pacoteTVService.getPacoteById(id);
+    public PacoteDeTVDTO getPacoteById(@PathVariable Long id) {
+        return this.mapper.toDTO(pacoteTVService.getPacoteById(id));
     }
 
     @PostMapping
-    public PacoteTV createPacote(@RequestBody PacoteTV pacoteTV) {
-        return pacoteTVService.createPacote(pacoteTV);
+    public PacoteDeTVDTO createPacote(@RequestBody PacoteTV pacoteTV) {
+        return this.mapper.toDTO(pacoteTVService.createPacote(pacoteTV));
     }
 
     @DeleteMapping("/{id}")
